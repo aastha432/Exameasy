@@ -31,7 +31,6 @@ const Navbar = () => {
            <Link to="/"><HomeIcon /></Link>
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            Online Proctoring Web Application
           </Typography>
           <Button color="inherit"><Link to="/signin">Sign in</Link></Button>
           <Button color="inherit"><Link to="/signup">Sign up</Link></Button>
