@@ -6,6 +6,10 @@ import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Signin from './Pages/Signin';
 import Signup from './Pages/Signup';
+import AdminDashboard from './Pages/AdminDashboard';
+import StudentDashboard from './Pages/StudentDashboard';
+import ProctorDashboard from './Pages/ProctorDashboard';
+import ResetPassword from './Pages/ResetPassword';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -15,6 +19,10 @@ root.render(
         <Route path="/" element={<App/>} />
         <Route path="signin" element={<Signin/>} />
         <Route path="signup" element={<Signup/>} />
+        <Route path="reset" element={<ResetPassword/>} />
+        <Route path="admindashboard" element={<AdminDashboard/>} />
+        <Route path="studentdashboard" element={<StudentDashboard/>} />
+        <Route path="proctordashboard" element={<ProctorDashboard/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
