@@ -7,6 +7,8 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from '../firebase';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -21,6 +23,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Navbar = () => {
+
+    const [user, loading, error] = useAuthState(auth);
     const classes = useStyles();
 
   return (
@@ -32,8 +36,8 @@ const Navbar = () => {
           </IconButton>
           <Typography variant="h6" className={classes.title}>
           </Typography>
-          <Button color="inherit"><Link to="/signin">Sign in</Link></Button>
-          <Button color="inherit"><Link to="/signup">Sign up</Link></Button>
+          {!user ? <Button color="inherit"><Link to="/signin">Sign in</Link></Button> : null}
+          {!user ? <Button color="inherit"><Link to="/signup">Sign up</Link></Button> : null}
         </Toolbar>
       </AppBar>
     </div>
