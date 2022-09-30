@@ -1,5 +1,5 @@
 import Navbar from '../Components/Navbar';
-import {React , useState, useEffect} from 'react';
+import {React , useState, useEffect, useCallback, useRef} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -12,7 +12,7 @@ import { auth } from '../firebase';
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
 import { Container } from '@material-ui/core';
 import microphone from "../Utilities/microphone.jpeg";
-import webcam from "../Utilities/webcam.jpeg";
+import webcam_photo from "../Utilities/webcam.jpeg";
 import internet from "../Utilities/internet_speed.jpeg";
 
 // System checks
@@ -50,6 +50,11 @@ const StudentDashboard = () => {
   const [record, setRecord] = useState(false);
   const [webcam, setWebcam] = useState(false);
   const [speed, setSpeed] = useState('');
+  const [checkSpeed, setCheckSpeed] = useState(false);
+
+  // Capturing image
+  const [capturedStudentImage, setCapturedStudentImage] = useState('');
+  const [capturedGovIDImage, setCapturedGovIDImage] =  useState('');
 
   useEffect(() => {
     if (!user) {
@@ -59,13 +64,31 @@ const StudentDashboard = () => {
 
   const classes = useStyles();
 
+  const webcamRefStudent = useRef(null);
+  const capturingStudentImage = useCallback(
+    () => {
+      const imageSrc = webcamRefStudent.current.getScreenshot();
+      setCapturedStudentImage(imageSrc);
+    },
+    [webcamRefStudent]
+  );
+
+  const webcamRefGov = useRef(null);
+  const capturingGovIDImage = useCallback(
+    () => {
+      const imageSrc = webcamRefGov.current.getScreenshot();
+      setCapturedGovIDImage(imageSrc);
+    },
+    [webcamRefGov]
+  );
+
+
   return (
   <div>
     { user ? <div>
     <Navbar/>
     <Container maxWidth="xs" className={classes.contentBox}>
         <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Student Dashboard</Typography>
-
         <Grid container spacing={2}>
             <Paper variant="outlined">
               <img src={photoURL} height = {100} width = {100} alt="Profile photo"/>
@@ -98,7 +121,7 @@ const StudentDashboard = () => {
             <Button onClick={()=> setRecord(false)} type="button">Stop</Button>
           </Grid>
           <Grid item xs={12}>
-            <img src={webcam} alt="webcam" width="50" height="50"/>
+            <img src={webcam_photo} alt="webcam" width="50" height="50"/>
             {webcam ? <Webcam
               audio={false}
               height={500}
@@ -112,7 +135,7 @@ const StudentDashboard = () => {
           </Grid>
           <Grid item xs={12}>
             <img src={internet} alt="internet" width="50" height="50"/>
-            <ReactInternetSpeedMeter  
+            { checkSpeed ? <ReactInternetSpeedMeter  
               txtSubHeading={`Internet speed is ${speed} Mbps` }
               outputType="alert"
               customClassName={null}
@@ -123,11 +146,52 @@ const StudentDashboard = () => {
               imageUrl="https://getwallpapers.com/wallpaper/full/7/2/a/286383.jpg"
               downloadSize="1781287"  //bytes
               callbackFunctionOnNetworkTest={(s)=>setSpeed(s)}
-            />
+            /> : null }
+            <Button onClick={()=> setCheckSpeed(true)} type="button">Start</Button>
+            <Button onClick={()=> setCheckSpeed(false)} type="button">Stop</Button>
           </Grid>
         </Grid>
-       
 
+
+       <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Capturing Images</Typography>
+        <Grid container spacing={2}>
+
+        <Typography variant="h5" component="h5" align="center" gutterBottom={true}>Capture Student Image</Typography>
+          <Grid item xs={12}>
+            {capturedStudentImage=='' ? <Webcam
+                audio={false}
+                height={500}
+                ref={webcamRefStudent}
+                screenshotFormat="image/jpeg"
+                width={500}
+                videoConstraints={{width : 500, height: 500,facingMode: "user"}}
+              />
+             : <img src={capturedStudentImage} height="500" width="500"/>}
+            <Button onClick={capturingStudentImage}>Capture Photo</Button>
+            <Button onClick={()=> setCapturedStudentImage('')}>Retake Photo</Button>
+          </Grid>
+
+          <Typography variant="h5" component="h5" align="center" gutterBottom={true}>Capture Government ID image</Typography>
+          <Grid item xs={12}>
+            {capturedGovIDImage=='' ? <Webcam
+                audio={false}
+                height={500}
+                ref={webcamRefGov}
+                screenshotFormat="image/jpeg"
+                width={500}
+                videoConstraints={{width : 500, height: 500,facingMode: "user"}}
+              />
+             : <img src={capturedGovIDImage} height="500" width="500"/>}
+            <Button onClick={capturingGovIDImage}>Capture Photo</Button>
+            <Button onClick={()=> setCapturedGovIDImage('')}>Retake Photo</Button>
+          </Grid>
+        </Grid>
+
+
+        <Button type="submit" variant="contained" color="primary" size="large" className={classes.primaryAction} 
+        onClick = {()=>navigate("/exam")}>
+            Start Exam
+        </Button>
 
 
         <Button type="submit" variant="contained" color="error" size="large" className={classes.primaryAction}

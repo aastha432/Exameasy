@@ -10,6 +10,7 @@ import AdminDashboard from './Pages/AdminDashboard';
 import StudentDashboard from './Pages/StudentDashboard';
 import ProctorDashboard from './Pages/ProctorDashboard';
 import ResetPassword from './Pages/ResetPassword';
+import Exam from './Pages/Exam';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +24,7 @@ root.render(
         <Route path="admindashboard" element={<AdminDashboard/>} />
         <Route path="studentdashboard" element={<StudentDashboard/>} />
         <Route path="proctordashboard" element={<ProctorDashboard/>} />
+        <Route path="exam" element={<Exam/>} />
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
