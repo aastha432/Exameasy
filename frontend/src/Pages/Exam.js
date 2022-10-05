@@ -1,10 +1,14 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import Navbar from '../Components/Navbar';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Webcam from "react-webcam";
+import Button from '@material-ui/core/Button';
+import Question from '../Components/Question';
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
 
 const Exam = () => {
     const classes = useStyles();
+    const navigate = useNavigate();
+
+    const submitHandler = () => {
+      navigate("/result");
+    }
     return(
         <div>
             <Navbar/>
@@ -32,14 +41,33 @@ const Exam = () => {
                 <Grid item xs={12}>
                     <Webcam
                         audio={true}
-                        height={500}
+                        height={100}
                         screenshotFormat="image/jpeg"
-                        width={500}
+                        width={100}
                         mirrored = {true}
                         videoConstraints={{width : 500, height: 500,facingMode: "user"}}
                     />
                 </Grid>
-            </Container>
+
+              <Grid item xs={12}>
+                < Question/>
+              </Grid>
+              <Grid item xs={12}>
+                < Question/>
+              </Grid>
+              <Grid item xs={12}>
+                < Question/>
+              </Grid>
+              <Grid item xs={12}>
+                < Question/>
+              </Grid>
+
+              <Button type="submit" variant="contained" color="primary" size="large" className={classes.primaryAction}
+               onClick = {()=> submitHandler()}>
+                  Submit
+                </Button>
+            </Container> 
+            
         </div>
     )
 }
