@@ -42,7 +42,7 @@ const StudentDashboard = () => {
   const [user, loading, error] = useAuthState(auth);
   const [displayName, setDisplayName] = useState(user ? user.displayName : " ");
   const [photoURL, setPhotoURL] = useState(user ? user.photoURL : " ");
-  const [exam, setExam] = useState(""); // should come from DB
+  const [exam, setExam] = useState("AZ-900"); // should come from DB
   const [updateProfile, updating] = useUpdateProfile(auth);
   const navigate = useNavigate();
 
@@ -88,25 +88,33 @@ const StudentDashboard = () => {
     { user ? <div>
     <Navbar/>
     <Container maxWidth="xs" className={classes.contentBox}>
-        <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Student Dashboard</Typography>
-        <Grid container spacing={2}>
-            <Paper variant="outlined">
-              <img src={photoURL} height = {100} width = {100} alt="Profile photo"/>
-            </Paper>
-              <Grid item xs={12}><TextField variant="outlined" required fullWidth size="small" name="displayName" label="displayName" 
-              value={displayName} onChange={(e) => setDisplayName(e.target.value)} /></Grid>
-            <Grid item xs={12}><TextField variant="outlined" required fullWidth size="small" name="email" label="email" 
-              value={user.email} /></Grid>
-            <Grid item xs={12}><TextField variant="outlined" required fullWidth size="small" name="Exam" label="Exam" 
-              value={exam} /></Grid>
+        <Grid container spacing={2} justifyContent="space-around">
+            <Grid>
+              <Paper variant="outlined">
+                <img src={photoURL} height = {100} width = {100} alt="Profile photo"/>
+              </Paper>
+            </Grid>
+            <Grid item xs={12}>
+              <TextField variant="outlined" required fullWidth size="small" name="Name" label="Name" 
+              value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Email : {user.email}</Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Exam : {exam}</Typography>
+            </Grid>
+            <Grid>
+                <Button type="submit" variant="contained" color="error" size="large" className={classes.primaryAction}
+                onClick={async () => {
+                  await updateProfile({ displayName});
+                  alert('Updated profile');
+                }}>
+                  Update Profile
+              </Button>
+            </Grid>
         </Grid>
-        <Button type="submit" variant="contained" color="error" size="large" className={classes.primaryAction}
-          onClick={async () => {
-            await updateProfile({ displayName});
-            alert('Updated profile');
-          }}>
-            Update Profile
-        </Button>
+        
 
         <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Upcoming Exams</Typography>
         <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Past Exams</Typography>
