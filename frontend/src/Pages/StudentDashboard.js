@@ -108,6 +108,9 @@ const StudentDashboard = () => {
             Update Profile
         </Button>
 
+        <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Upcoming Exams</Typography>
+        <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Past Exams</Typography>
+
         <Typography variant="h5" component="h3" align="center" gutterBottom={true}>System Check</Typography>
         <Grid container spacing={2}>
           <Grid item xs={12}>
