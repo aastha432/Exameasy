@@ -1,8 +1,9 @@
 import Navbar from '../Components/Navbar';
-import {React , useState, useEffect, useCallback, useRef} from 'react';
+import {React , useState, useEffect, useCallback, useRef, useLayoutEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import Box from '@mui/material/Box';
 import { logout } from '../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
@@ -22,19 +23,30 @@ import { ReactInternetSpeedMeter } from 'react-internet-meter'
 import Signin from './Signin';
 
 const useStyles = makeStyles((theme) => ({
-  actions: {
-    [theme.breakpoints.up('sm')]: {
-      display: 'flex'
-    }
-  },
+  
   primaryAction: {
     width: '100%',
-    marginTop: theme.spacing(2),
     justifyContent : 'center',
   },
-  contentBox : {
-    marginTop : 100
-  }
+  container : {
+    marginTop : 100,
+  },
+  boxGrid : {
+    marginTop : 50,
+    flexDirection : "row",
+  },
+  box : {
+    width: '100%',
+    height: 300,
+    backgroundColor: "#aec2ea",
+    borderRadius : 10,
+    overflow : "auto"
+  },
+  boxHeader : {
+    backgroundColor: "#5d85d5",
+    height : 30,
+    borderRadius : 10,
+  },
 }));
 
 const StudentDashboard = () => {
@@ -43,6 +55,8 @@ const StudentDashboard = () => {
   const [displayName, setDisplayName] = useState(user ? user.displayName : " ");
   const [photoURL, setPhotoURL] = useState(user ? user.photoURL : " ");
   const [exam, setExam] = useState("AZ-900"); // should come from DB
+  const [upcomingExams, setUpcomingExams] = useState(["AZ-900", "DP-900", "AI-900", "PL-900", "SC-900","AZ-900", "DP-900", "AI-900", "PL-900", "SC-900"]); // should come from DB
+  const [pastExams, setPastExams] = useState(["AZ-900", "DP-900", "AI-900", "PL-900", "SC-900","AZ-900", "DP-900", "AI-900", "PL-900", "SC-900"]); // should come from DB
   const [updateProfile, updating] = useUpdateProfile(auth);
   const navigate = useNavigate();
 
@@ -82,20 +96,22 @@ const StudentDashboard = () => {
     [webcamRefGov]
   );
 
+  
+
 
   return (
   <div>
     { user ? <div>
     <Navbar/>
-    <Container maxWidth="xs" className={classes.contentBox}>
-        <Grid container spacing={2} justifyContent="space-around">
-            <Grid>
+    <Container  className={classes.container}>
+        <Grid container spacing={2} justifyContent="center">
+            <Grid item>
               <Paper variant="outlined">
-                <img src={photoURL} height = {100} width = {100} alt="Profile photo"/>
+                <img src={photoURL} height = {150} width = {150} alt="Profile photo"/>
               </Paper>
             </Grid>
-            <Grid item xs={12}>
-              <TextField variant="outlined" required fullWidth size="small" name="Name" label="Name" 
+            <Grid item >
+              <TextField variant="outlined" required  name="Name" label="Name" 
               value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
             </Grid>
             <Grid item xs={12}>
@@ -116,8 +132,30 @@ const StudentDashboard = () => {
         </Grid>
         
 
-        <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Upcoming Exams</Typography>
-        <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Past Exams</Typography>
+        <Grid className={classes.boxGrid} container spacing={2}>
+          <Grid item xs={6}>
+            <Box className={classes.box}>
+              <Typography variant="h5" component="h3" align="center" className={classes.boxHeader} gutterBottom={true}
+               >UPCOMING EXAMS</Typography>
+               { 
+                upcomingExams.map((e) =>
+                   <Typography  component="h5" align="center" gutterBottom={true}>{e}</Typography>
+                )
+               }
+            </Box>
+          </Grid>
+          <Grid item xs={6}>
+            <Box className={classes.box}>
+              <Typography variant="h5" component="h3" align="center" gutterBottom={true} className={classes.boxHeader}>PAST EXAMS</Typography>
+              { 
+                pastExams.map((e) =>
+                   <Typography  component="h5" align="center" gutterBottom={true}>{e}</Typography>
+                )
+               }
+            </Box>
+          </Grid>
+        </Grid>
+        
 
         <Typography variant="h5" component="h3" align="center" gutterBottom={true}>System Check</Typography>
         <Grid container spacing={2}>
