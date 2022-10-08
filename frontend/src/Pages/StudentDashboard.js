@@ -13,9 +13,16 @@ import Paper from '@material-ui/core/Paper';
 import { auth } from '../firebase';
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
 import { Container } from '@material-ui/core';
-import microphone from "../Utilities/microphone.jpeg";
-import webcam_photo from "../Utilities/webcam.jpeg";
-import internet from "../Utilities/internet_speed.jpeg";
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import MicIcon from '@mui/icons-material/Mic';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import WifiIcon from '@mui/icons-material/Wifi';
 
 // System checks
 import { ReactMic } from 'react-mic';
@@ -62,6 +69,13 @@ const StudentDashboard = () => {
   const navigate = useNavigate();
 
   //System checks
+
+  // toggle dropdowns
+  const [openMicrophone, setOpenMicrophone] = useState(false);
+  const [openWebcam, setOpenWebcam] = useState(false);
+  const [openInternet, setOpenInternet] = useState(false);
+
+  //content
   const [record, setRecord] = useState(false);
   const [webcam, setWebcam] = useState(false);
   const [speed, setSpeed] = useState('');
@@ -78,6 +92,16 @@ const StudentDashboard = () => {
   }, [user, loading]);
 
   const classes = useStyles();
+
+  const handleMicrophoneClick = () => {
+    setOpenMicrophone(!openMicrophone);
+  }
+  const handleWebcamClick = () => {
+    setOpenWebcam(!openWebcam);
+  }
+  const handleInternetClick = () => {
+    setOpenInternet(!openInternet);
+  }
 
   const webcamRefStudent = useRef(null);
   const capturingStudentImage = useCallback(
@@ -158,50 +182,89 @@ const StudentDashboard = () => {
 
         
         <Grid container spacing={2}>
+
           <Grid item xs={12} marginTop="30">
           <Typography variant="h5" component="h3" align="center" gutterBottom={true}>System Check</Typography>
           </Grid>
+
           <Grid item xs={12}>
-            <img src={microphone} alt="microphone" width="50" height="50"/>
-            <ReactMic
-              record={record}
-              className="sound-wave"
-              strokeColor="#000000"
-              backgroundColor="#FF4081" />
-            <Button onClick={()=> setRecord(true)} type="button">Start</Button>
-            <Button onClick={()=> setRecord(false)} type="button">Stop</Button>
+            <ListItemButton onClick={handleMicrophoneClick}>
+              <ListItemIcon>
+                <MicIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Check microphone" />
+              {openMicrophone ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openMicrophone} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  <ReactMic
+                    record={record}
+                    className="sound-wave"
+                    strokeColor="#000000"
+                    backgroundColor="#FF4081" />
+                  <Button onClick={()=> setRecord(true)} type="button">Start</Button>
+                  <Button onClick={()=> setRecord(false)} type="button">Stop</Button>
+                </ListItemButton>
+              </List>
+            </Collapse>
+          </Grid>
+          
+          
+          <Grid item xs={12}>
+            <ListItemButton onClick={handleWebcamClick}>
+              <ListItemIcon>
+                <CameraAltIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Check webcam" />
+              {openWebcam ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openWebcam} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                  {webcam ? <Webcam
+                    audio={false}
+                    height={500}
+                    screenshotFormat="image/jpeg"
+                    width={500}
+                    mirrored = {true}
+                    videoConstraints={{width : 500, height: 500,facingMode: "user"}}
+                  ></Webcam> : null}
+                  <Button onClick={()=> setWebcam(true)} type="button">Start</Button>
+                  <Button onClick={()=> setWebcam(false)} type="button">Stop</Button>
+                </ListItemButton>
+              </List>
+            </Collapse>
           </Grid>
 
           <Grid item xs={12}>
-            <img src={webcam_photo} alt="webcam" width="50" height="50"/>
-            {webcam ? <Webcam
-              audio={false}
-              height={500}
-              screenshotFormat="image/jpeg"
-              width={500}
-              mirrored = {true}
-              videoConstraints={{width : 500, height: 500,facingMode: "user"}}
-            ></Webcam> : null}
-            <Button onClick={()=> setWebcam(true)} type="button">Start</Button>
-            <Button onClick={()=> setWebcam(false)} type="button">Stop</Button>
-          </Grid>
-
-          <Grid item xs={12}>
-            <img src={internet} alt="internet" width="50" height="50"/>
-            { checkSpeed ? <ReactInternetSpeedMeter  
-              txtSubHeading={`Internet speed is ${speed} Mbps` }
-              outputType="alert"
-              customClassName={null}
-              txtMainHeading=" " 
-              pingInterval={4000} // milliseconds 
-              thresholdUnit='megabyte' // "byte" , "kilobyte", "megabyte" 
-              threshold={100}
-              imageUrl="https://getwallpapers.com/wallpaper/full/7/2/a/286383.jpg"
-              downloadSize="1781287"  //bytes
-              callbackFunctionOnNetworkTest={(s)=>setSpeed(s)}
-            /> : null }
-            <Button onClick={()=> setCheckSpeed(true)} type="button">Start</Button>
-            <Button onClick={()=> setCheckSpeed(false)} type="button">Stop</Button>
+            <ListItemButton onClick={handleInternetClick}>
+              <ListItemIcon>
+                <WifiIcon/>
+              </ListItemIcon>
+              <ListItemText primary="Check internet" />
+              {openInternet ? <ExpandLess /> : <ExpandMore />}
+            </ListItemButton>
+            <Collapse in={openInternet} timeout="auto" unmountOnExit>
+              <List component="div" disablePadding>
+                <ListItemButton sx={{ pl: 4 }}>
+                { checkSpeed ? <ReactInternetSpeedMeter  
+                  txtSubHeading={`Internet speed is ${speed} Mbps` }
+                  outputType="alert"
+                  customClassName={null}
+                  txtMainHeading=" " 
+                  pingInterval={4000} // milliseconds 
+                  thresholdUnit='megabyte' // "byte" , "kilobyte", "megabyte" 
+                  threshold={100}
+                  imageUrl="https://getwallpapers.com/wallpaper/full/7/2/a/286383.jpg"
+                  downloadSize="1781287"  //bytes
+                  callbackFunctionOnNetworkTest={(s)=>setSpeed(s)}
+                /> : null }
+                <Button onClick={()=> setCheckSpeed(true)} type="button">Start</Button>
+                <Button onClick={()=> setCheckSpeed(false)} type="button">Stop</Button>
+                </ListItemButton>
+              </List>
+            </Collapse>
           </Grid>
 
         </Grid>
