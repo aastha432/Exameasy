@@ -13,6 +13,8 @@ import { auth } from '../firebase';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    position : "sticky",
+    marginTop : 0,
   },
   menuButton: {
     marginRight: theme.spacing(2),
@@ -28,8 +30,7 @@ const Navbar = () => {
     const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar className={classes.root}>
         <Toolbar>
           <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
            <Link to="/"><HomeIcon /></Link>
@@ -40,7 +41,6 @@ const Navbar = () => {
           {!user ? <Button color="inherit"><Link to="/signup">Sign up</Link></Button> : null}
         </Toolbar>
       </AppBar>
-    </div>
   );
 }
 
