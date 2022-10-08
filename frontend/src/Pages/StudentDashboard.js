@@ -7,6 +7,7 @@ import Box from '@mui/material/Box';
 import { logout } from '../firebase';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Avatar from '@mui/material/Avatar';
 import Grid from '@material-ui/core/Grid';
 import Paper from '@material-ui/core/Paper';
 import { auth } from '../firebase';
@@ -29,7 +30,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent : 'center',
   },
   container : {
-    marginTop : 100,
+    marginTop : 30,
   },
   boxGrid : {
     marginTop : 50,
@@ -106,12 +107,10 @@ const StudentDashboard = () => {
     <Container  className={classes.container}>
         <Grid container spacing={2} justifyContent="center">
             <Grid item>
-              <Paper variant="outlined">
-                <img src={photoURL} height = {150} width = {150} alt="Profile photo"/>
-              </Paper>
+              <Avatar alt="Profile photo" src={photoURL} height = {100} width = {100} />
             </Grid>
             <Grid item >
-              <TextField variant="outlined" required  name="Name" label="Name" 
+              <TextField variant="outlined" required size="small" name="Name" label="Name" 
               value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
             </Grid>
             <Grid item xs={12}>
@@ -157,8 +156,11 @@ const StudentDashboard = () => {
         </Grid>
         
 
-        <Typography variant="h5" component="h3" align="center" gutterBottom={true}>System Check</Typography>
+        
         <Grid container spacing={2}>
+          <Grid item xs={12} marginTop="30">
+          <Typography variant="h5" component="h3" align="center" gutterBottom={true}>System Check</Typography>
+          </Grid>
           <Grid item xs={12}>
             <img src={microphone} alt="microphone" width="50" height="50"/>
             <ReactMic
@@ -169,6 +171,7 @@ const StudentDashboard = () => {
             <Button onClick={()=> setRecord(true)} type="button">Start</Button>
             <Button onClick={()=> setRecord(false)} type="button">Stop</Button>
           </Grid>
+
           <Grid item xs={12}>
             <img src={webcam_photo} alt="webcam" width="50" height="50"/>
             {webcam ? <Webcam
@@ -182,6 +185,7 @@ const StudentDashboard = () => {
             <Button onClick={()=> setWebcam(true)} type="button">Start</Button>
             <Button onClick={()=> setWebcam(false)} type="button">Stop</Button>
           </Grid>
+
           <Grid item xs={12}>
             <img src={internet} alt="internet" width="50" height="50"/>
             { checkSpeed ? <ReactInternetSpeedMeter  
@@ -199,6 +203,7 @@ const StudentDashboard = () => {
             <Button onClick={()=> setCheckSpeed(true)} type="button">Start</Button>
             <Button onClick={()=> setCheckSpeed(false)} type="button">Stop</Button>
           </Grid>
+
         </Grid>
 
 
