@@ -74,20 +74,20 @@ const StudentDashboard = () => {
   const [openMicrophone, setOpenMicrophone] = useState(false);
   const [openWebcam, setOpenWebcam] = useState(false);
   const [openInternet, setOpenInternet] = useState(false);
-
   // microphone controls
   const [record, setRecord] = useState(false);
   const [microphoneVerified, setMicrophoneVerified] = useState(false);
-
   // webcam controls
   const [webcam, setWebcam] = useState(false);
   const [webcamVerified, setWebcamVerified] = useState(false);
-
   // internet controls
   const [speed, setSpeed] = useState('');
   const [checkSpeed, setCheckSpeed] = useState(false);
   const [internetVerified, setInternetVerified] = useState(false);
 
+  // toggle dropdowns (Capturing images)
+  const [openCaptureStudentImage, setOpenCaptureStudentImage] = useState(false);
+  const [openCaptureGovIDImage, setOpenCaptureGovIDImage] =  useState(false);
   // Capturing image
   const [capturedStudentImage, setCapturedStudentImage] = useState('');
   const [capturedGovIDImage, setCapturedGovIDImage] =  useState('');
@@ -137,7 +137,7 @@ const StudentDashboard = () => {
   const capturingStudentImage = useCallback(
     () => {
       const imageSrc = webcamRefStudent.current.getScreenshot();
-      setCapturedStudentImage(imageSrc);
+      setCapturedStudentImage(imageSrc); // store this in DB later
     },
     [webcamRefStudent]
   );
@@ -146,7 +146,7 @@ const StudentDashboard = () => {
   const capturingGovIDImage = useCallback(
     () => {
       const imageSrc = webcamRefGov.current.getScreenshot();
-      setCapturedGovIDImage(imageSrc);
+      setCapturedGovIDImage(imageSrc);// store this in DB later
     },
     [webcamRefGov]
   );
@@ -339,39 +339,60 @@ const StudentDashboard = () => {
           </Grid>
         </Grid>
 
-
-        <Grid container spacing={2}>
-
-        <Typography variant="h5" component="h5" align="center" gutterBottom={true}>Capture Student Image</Typography>
-          <Grid item xs={12}>
-            {capturedStudentImage=='' ? <Webcam
+        <Typography component="h5" align="center" gutterBottom={true}>
+          <Button variant="contained" color="primary" size="large"
+          onClick={()=> setOpenCaptureStudentImage(!openCaptureStudentImage)}
+          >Capture Student Image</Button>
+        </Typography>
+        { openCaptureStudentImage ? <Grid container spacing={2} justifyContent="center">
+          <Grid item >
+            {capturedStudentImage=='' ? <Typography align='center'><Webcam
                 audio={false}
                 height={500}
                 ref={webcamRefStudent}
                 screenshotFormat="image/jpeg"
                 width={500}
                 videoConstraints={{width : 500, height: 500,facingMode: "user"}}
-              />
-             : <img src={capturedStudentImage} height="500" width="500"/>}
+              /></Typography>
+             : <Typography align='center'><img src={capturedStudentImage} height="500" width="500"/></Typography>}
+          </Grid>
+          <Grid item>
             <Button onClick={capturingStudentImage}>Capture Photo</Button>
+          </Grid>
+          <Grid item>
             <Button onClick={()=> setCapturedStudentImage('')}>Retake Photo</Button>
           </Grid>
+        </Grid> : null }
 
-          <Typography variant="h5" component="h5" align="center" gutterBottom={true}>Capture Government ID image</Typography>
-          <Grid item xs={12}>
-            {capturedGovIDImage=='' ? <Webcam
+        
+        <Typography component="h5" align="center" gutterBottom={true}>
+          <Button variant="contained" color="primary" size="large"
+          onClick={()=> setOpenCaptureGovIDImage(!openCaptureGovIDImage)}
+          >Capture Government ID Image</Button>
+        </Typography>
+        { openCaptureGovIDImage ? <Grid container spacing={2} justifyContent="center">
+          <Grid item >
+            {capturedGovIDImage=='' ? <Typography align='center'><Webcam
                 audio={false}
                 height={500}
                 ref={webcamRefGov}
                 screenshotFormat="image/jpeg"
                 width={500}
                 videoConstraints={{width : 500, height: 500,facingMode: "user"}}
-              />
-             : <img src={capturedGovIDImage} height="500" width="500"/>}
+              /></Typography>
+             : <Typography align='center'><img src={capturedGovIDImage} height="500" width="500"/></Typography>}
+          </Grid>
+          <Grid item>
             <Button onClick={capturingGovIDImage}>Capture Photo</Button>
+          </Grid>
+          <Grid item>
             <Button onClick={()=> setCapturedGovIDImage('')}>Retake Photo</Button>
           </Grid>
-        </Grid>
+        </Grid> : null }
+
+        <Typography align='center'>
+          Waiting for verification of uploaded images .....
+        </Typography>
 
 
         <Button type="submit" variant="contained" color="primary" size="large" className={classes.primaryAction} 
