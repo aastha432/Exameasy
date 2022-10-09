@@ -25,6 +25,7 @@ import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import WifiIcon from '@mui/icons-material/Wifi';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
+import HourglassTopIcon from '@mui/icons-material/HourglassTop';
 
 // System checks
 import { ReactMic } from 'react-mic';
@@ -91,6 +92,8 @@ const StudentDashboard = () => {
   // Capturing image
   const [capturedStudentImage, setCapturedStudentImage] = useState('');
   const [capturedGovIDImage, setCapturedGovIDImage] =  useState('');
+  const [imagesVerified, setImagesVerified] = useState(false); // shouls be populated from proctor's end
+
 
   useEffect(() => {
     if (!user) {
@@ -344,7 +347,7 @@ const StudentDashboard = () => {
           onClick={()=> setOpenCaptureStudentImage(!openCaptureStudentImage)}
           >Capture Student Image</Button>
         </Typography>
-        { openCaptureStudentImage ? <Grid container spacing={2} justifyContent="center">
+        { openCaptureStudentImage ? <Grid container spacing={2} justifyContent="center" className={classes.container}>
           <Grid item >
             {capturedStudentImage=='' ? <Typography align='center'><Webcam
                 audio={false}
@@ -370,7 +373,7 @@ const StudentDashboard = () => {
           onClick={()=> setOpenCaptureGovIDImage(!openCaptureGovIDImage)}
           >Capture Government ID Image</Button>
         </Typography>
-        { openCaptureGovIDImage ? <Grid container spacing={2} justifyContent="center">
+        { openCaptureGovIDImage ? <Grid container spacing={2} justifyContent="center" className={classes.container}>
           <Grid item >
             {capturedGovIDImage=='' ? <Typography align='center'><Webcam
                 audio={false}
@@ -390,21 +393,44 @@ const StudentDashboard = () => {
           </Grid>
         </Grid> : null }
 
-        <Typography align='center'>
-          Waiting for verification of uploaded images .....
-        </Typography>
+        { !imagesVerified ?
+        <Grid container spacing={2} justifyContent="center" className={classes.container}>
+           <Grid item>
+            <Typography align='center'>
+              Waiting for verification ..... 
+            </Typography>
+           </Grid>
+           <Grid item>
+            <HourglassTopIcon/>
+           </Grid>
+        </Grid > :
+        <Grid container spacing={2} justifyContent="center" className={classes.container}>
+        <Grid item>
+         <Typography align='center'>
+           Verification successfull
+         </Typography>
+        </Grid>
+        <Grid item>
+         <CheckCircleIcon/>
+        </Grid>
+     </Grid > }
+        
 
 
-        <Button type="submit" variant="contained" color="primary" size="large" className={classes.primaryAction} 
-        onClick = {()=>navigate("/exam")}>
-            Start Exam
-        </Button>
+      <Grid container spacing={2} justifyContent="center" className={classes.container}>
+        <Grid item>
+          {imagesVerified ? 
+          <Button type="submit" variant="contained" size="large" className={classes.primaryAction}
+          onClick = {()=>navigate("/exam")}>
+              Start Exam
+          </Button> :
+          <Button type="submit" variant="contained" size="large" className={classes.primaryAction} disabled
+          onClick = {()=>navigate("/exam")}>
+              Start Exam
+          </Button> }
+        </Grid>
+      </Grid>
 
-
-        <Button type="submit" variant="contained" color="error" size="large" className={classes.primaryAction}
-          onClick={logout}>
-            Sign Out
-        </Button>
     </Container>
   </div> : null }
  </div>

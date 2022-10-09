@@ -9,6 +9,8 @@ import HomeIcon from '@material-ui/icons/Home';
 import { Link } from 'react-router-dom';
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from '../firebase';
+import { logout } from '../firebase';
+
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -39,6 +41,10 @@ const Navbar = () => {
           </Typography>
           {!user ? <Button color="inherit"><Link to="/signin">Sign in</Link></Button> : null}
           {!user ? <Button color="inherit"><Link to="/signup">Sign up</Link></Button> : null}
+          {user ? <Button type="submit" color="inherit"
+            onClick={logout}>
+              Sign out
+          </Button> : null}
         </Toolbar>
       </AppBar>
   );
