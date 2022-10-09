@@ -23,6 +23,8 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import MicIcon from '@mui/icons-material/Mic';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 import WifiIcon from '@mui/icons-material/Wifi';
+import CheckCircleIcon from '@mui/icons-material/CheckCircle';
+import CancelIcon from '@mui/icons-material/Cancel';
 
 // System checks
 import { ReactMic } from 'react-mic';
@@ -68,18 +70,23 @@ const StudentDashboard = () => {
   const [updateProfile, updating] = useUpdateProfile(auth);
   const navigate = useNavigate();
 
-  //System checks
-
-  // toggle dropdowns
+  // toggle dropdowns (System checks)
   const [openMicrophone, setOpenMicrophone] = useState(false);
   const [openWebcam, setOpenWebcam] = useState(false);
   const [openInternet, setOpenInternet] = useState(false);
 
-  //content
+  // microphone controls
   const [record, setRecord] = useState(false);
+  const [microphoneVerified, setMicrophoneVerified] = useState(false);
+
+  // webcam controls
   const [webcam, setWebcam] = useState(false);
+  const [webcamVerified, setWebcamVerified] = useState(false);
+
+  // internet controls
   const [speed, setSpeed] = useState('');
   const [checkSpeed, setCheckSpeed] = useState(false);
+  const [internetVerified, setInternetVerified] = useState(false);
 
   // Capturing image
   const [capturedStudentImage, setCapturedStudentImage] = useState('');
@@ -93,6 +100,8 @@ const StudentDashboard = () => {
 
   const classes = useStyles();
 
+
+  // toggle system check dropdown functions
   const handleMicrophoneClick = () => {
     setOpenMicrophone(!openMicrophone);
   }
@@ -103,6 +112,27 @@ const StudentDashboard = () => {
     setOpenInternet(!openInternet);
   }
 
+  // microphone control functions
+  const handleMicrophoneVerification = () => {
+    setMicrophoneVerified(true);
+  }
+  const onData = ()=> {
+    console.log("Recording.....");
+  }
+
+  const onStop = (recordedBlob) => {
+    console.log(recordedBlob);
+  }
+
+  // webcam control functions
+  const handleWebcamVerification = () => {
+
+  }
+
+  // internet control functions
+  const handleInternetVerification = () => {
+
+  }
   const webcamRefStudent = useRef(null);
   const capturingStudentImage = useCallback(
     () => {
@@ -138,10 +168,10 @@ const StudentDashboard = () => {
               value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Email : {user.email}</Typography>
+              <Typography  component="h3" align="center">Email : {user.email}</Typography>
             </Grid>
             <Grid item xs={12}>
-              <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Exam : {exam}</Typography>
+              <Typography component="h3" align="center">Exam : {exam}</Typography>
             </Grid>
             <Grid>
                 <Button type="submit" variant="contained" color="error" size="large" className={classes.primaryAction}
@@ -182,11 +212,6 @@ const StudentDashboard = () => {
 
         
         <Grid container spacing={2}>
-
-          <Grid item xs={12} marginTop="30">
-          <Typography variant="h5" component="h3" align="center" gutterBottom={true}>System Check</Typography>
-          </Grid>
-
           <Grid item xs={12}>
             <ListItemButton onClick={handleMicrophoneClick}>
               <ListItemIcon>
@@ -198,13 +223,31 @@ const StudentDashboard = () => {
             <Collapse in={openMicrophone} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
-                  <ReactMic
+                <Grid container spacing={2} justifyContent="center">
+                  <Grid item >
+                    <ReactMic
                     record={record}
                     className="sound-wave"
                     strokeColor="#000000"
-                    backgroundColor="#FF4081" />
-                  <Button onClick={()=> setRecord(true)} type="button">Start</Button>
-                  <Button onClick={()=> setRecord(false)} type="button">Stop</Button>
+                    backgroundColor="#FFFFFF" 
+                    onStop={onStop}
+                    onData={onData}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Button onClick={()=> setRecord(true)} type="button">Start</Button>
+                  </Grid>
+                  <Grid item >
+                    <Button onClick={()=> setRecord(false)} type="button">Stop</Button>
+                  </Grid>
+                  <Grid item xs={12}>
+                    {
+                      microphoneVerified ? <Typography  align='center'><CheckCircleIcon fontSize='large'/> </Typography> :
+                      <Typography align='center'><CancelIcon fontSize='large'/></Typography>
+                    }
+                  </Grid>
+                  
+                  </Grid>
                 </ListItemButton>
               </List>
             </Collapse>
@@ -222,16 +265,30 @@ const StudentDashboard = () => {
             <Collapse in={openWebcam} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
-                  {webcam ? <Webcam
-                    audio={false}
-                    height={500}
-                    screenshotFormat="image/jpeg"
-                    width={500}
-                    mirrored = {true}
-                    videoConstraints={{width : 500, height: 500,facingMode: "user"}}
-                  ></Webcam> : null}
-                  <Button onClick={()=> setWebcam(true)} type="button">Start</Button>
-                  <Button onClick={()=> setWebcam(false)} type="button">Stop</Button>
+                  <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12}>
+                      {webcam ? <Typography align='center'><Webcam
+                      audio={false}
+                      height={100}
+                      screenshotFormat="image/jpeg"
+                      width={100}
+                      mirrored = {true}
+                      videoConstraints={{width : 500, height: 500,facingMode: "user"}}
+                    ></Webcam></Typography> : null}
+                    </Grid>
+                    <Grid item >
+                      <Button onClick={()=> setWebcam(true)} type="button">Start</Button>
+                    </Grid>
+                    <Grid item >
+                      <Button onClick={()=> setWebcam(false)} type="button">Stop</Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                      {
+                        webcamVerified ? <Typography  align='center'><CheckCircleIcon fontSize='large'/> </Typography> :
+                        <Typography align='center'><CancelIcon fontSize='large'/></Typography>
+                      }
+                    </Grid>
+                  </Grid>
                 </ListItemButton>
               </List>
             </Collapse>
@@ -248,29 +305,41 @@ const StudentDashboard = () => {
             <Collapse in={openInternet} timeout="auto" unmountOnExit>
               <List component="div" disablePadding>
                 <ListItemButton sx={{ pl: 4 }}>
-                { checkSpeed ? <ReactInternetSpeedMeter  
-                  txtSubHeading={`Internet speed is ${speed} Mbps` }
-                  outputType="alert"
-                  customClassName={null}
-                  txtMainHeading=" " 
-                  pingInterval={4000} // milliseconds 
-                  thresholdUnit='megabyte' // "byte" , "kilobyte", "megabyte" 
-                  threshold={100}
-                  imageUrl="https://getwallpapers.com/wallpaper/full/7/2/a/286383.jpg"
-                  downloadSize="1781287"  //bytes
-                  callbackFunctionOnNetworkTest={(s)=>setSpeed(s)}
-                /> : null }
-                <Button onClick={()=> setCheckSpeed(true)} type="button">Start</Button>
-                <Button onClick={()=> setCheckSpeed(false)} type="button">Stop</Button>
+                  <Grid container spacing={2} justifyContent="center">
+                    <Grid item xs={12} alignItems="center">
+                     { checkSpeed ? <Typography align='center'><ReactInternetSpeedMeter  
+                          txtSubHeading={`Internet speed is ${speed} Mbps` }
+                          outputType="alert"
+                          customClassName={null}
+                          txtMainHeading=" " 
+                          pingInterval={4000} // milliseconds 
+                          thresholdUnit='megabyte' // "byte" , "kilobyte", "megabyte" 
+                          threshold={100}
+                          imageUrl="https://getwallpapers.com/wallpaper/full/7/2/a/286383.jpg"
+                          downloadSize="1781287"  //bytes
+                          callbackFunctionOnNetworkTest={(s)=>setSpeed(s)}
+                        /></Typography> : null }
+                    </Grid>
+                    <Grid item >
+                      <Button onClick={()=> setCheckSpeed(true)} type="button">Start</Button>
+                    </Grid>
+                    <Grid item >
+                      <Button onClick={()=> setCheckSpeed(false)} type="button">Stop</Button>
+                    </Grid>
+                    <Grid item xs={12}>
+                      {
+                        internetVerified ? <Typography  align='center'><CheckCircleIcon fontSize='large'/> </Typography> :
+                        <Typography align='center'><CancelIcon fontSize='large'/></Typography>
+                      }
+                    </Grid>
+                  </Grid>
                 </ListItemButton>
               </List>
             </Collapse>
           </Grid>
-
         </Grid>
 
 
-       <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Capturing Images</Typography>
         <Grid container spacing={2}>
 
         <Typography variant="h5" component="h5" align="center" gutterBottom={true}>Capture Student Image</Typography>
