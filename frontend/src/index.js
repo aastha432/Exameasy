@@ -13,6 +13,14 @@ import ResetPassword from './Pages/ResetPassword';
 import Exam from './Pages/Exam';
 import Result from './Pages/Result';
 
+/*
+ /studentdashboard should be changed to /studentdashboard/userID
+ /proctordashboard should be changed to /proctordashboard/userID
+ /admindashboard should be changed to /admindashboard/userID
+ /exam should be changed to /exam/studentID/examID
+ /result should be changed to /result/studentID/examID
+*/
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>

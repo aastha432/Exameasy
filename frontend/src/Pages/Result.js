@@ -13,17 +13,23 @@ import { auth } from '../firebase';
 
 
 const useStyles = makeStyles((theme) => ({
-    actions: {
-      [theme.breakpoints.up('sm')]: {
-        display: 'flex'
-      }
-    },
-    primaryAction: {
-      width: '100%',
+    button: {
+      width: '30%',
       marginTop: theme.spacing(2),
     },
     contentBox : {
-      marginTop : 100
+      marginTop : 100,
+    },
+    malpracticeDetected : {
+      color : "red",
+      fontWeight : "bold",
+    },
+    malpracticeNotDetected : {
+      color : "green",
+      fontWeight : "bold",
+    },
+    bold : {
+      fontWeight : "bold",
     }
   }));
 
@@ -32,6 +38,9 @@ const Result = () => {
     const [user, loading, error] = useAuthState(auth);
     const classes = useStyles();
     const navigate = useNavigate();
+    const [exam, setExam] = useState("AZ-900"); // should come from DB
+    const [marks, setMarks] = useState("750"); // should come from DB
+    const [malpracticeDetected, setMalpracticeDetected] = useState(false); // will be handled by MPDS
 
     const submitHandler = () => {
         navigate("/studentdashboard");
@@ -40,19 +49,66 @@ const Result = () => {
 
     return(
         <div>
+          { !malpracticeDetected ? 
+          <div>
             <Navbar/>
-            <Container maxWidth="xs" className={classes.contentBox}>
-                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Result</Typography>
-                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Name : {user.displayName}</Typography>
-                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Exam : AZ-900</Typography>
-                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Marks : 784/1000</Typography>
-                <Button type="submit" variant="contained" color="primary" size="large" className={classes.primaryAction}
-                    onClick = {()=> submitHandler()}>
-                  Go to Profile
-                </Button>
-                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>The result will be emailed to you considering the logs of MPDS</Typography>
+            <Container className={classes.contentBox}> 
+              <Grid container spacing={2} justifyContent='center'>
+                <Grid item xs={12}>
+                  <Typography variant="h5" component="h3" align="center" gutterBottom={true} className={classes.malpracticeNotDetected}>
+                    Thank you for appearing. Here is your result !</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography variant="h5" component="h3" align="center" gutterBottom={true}>
+                    Name : {user.displayName ? user.displayName : " "}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                 <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Exam : {exam}</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                 <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Marks : {marks}/1000</Typography>
+                </Grid>
+                <Grid item xs={12}>
+                  <Typography align='center'>
+                    <Button type="submit" variant="contained" color="primary" size="large" className={classes.button}
+                        onClick = {()=> submitHandler()}>
+                      Go to Profile
+                    </Button>
+                  </Typography>
+                </Grid>
+              </Grid>  
             </Container> 
-            
+          </div> :
+          <div>
+          <Navbar/>
+          <Container className={classes.contentBox}> 
+            <Grid container spacing={2}>
+              <Grid item xs={12}>
+                <Typography variant="h5" component="h3" align="center" gutterBottom={true} className={classes.bold}>
+                  You have been caught for malpractice !</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>
+                  Name : {user.displayName ? user.displayName : " "}</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Exam : AZ-900</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="h5" component="h3" align="center" gutterBottom={true} className={classes.malpracticeDetected}
+                > Your exam has been terminated.</Typography>
+              </Grid>
+              <Grid item xs={12}>
+                <Typography align='center'>
+                  <Button type="submit" variant="contained" color="primary" size="large" className={classes.button}
+                      onClick = {()=> submitHandler()}>
+                    Go to Profile
+                  </Button>
+                </Typography>
+              </Grid>
+            </Grid>  
+          </Container> 
+        </div> }
         </div>
     )
 }
