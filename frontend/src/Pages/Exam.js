@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Webcam from "react-webcam";
 import Button from '@material-ui/core/Button';
 import Question from '../Components/Question';
+import Timer from '../Components/Timer';
 
 
 
@@ -26,6 +27,14 @@ const useStyles = makeStyles((theme) => ({
 const Exam = () => {
     const classes = useStyles();
     const navigate = useNavigate();
+
+    // Timer - should come from DB
+    const [timer, setTimer] = useState({
+      "hours" : 0,
+      "minutes" : 0,
+      "seconds" : 10
+    })
+
     const [questions, setQuestions] = useState([
       {
         "question" : "A company is planning to set up a solution on the Azure platform. The solution has the following main key requirement. Provide a managed service that could be used to manage and scale container-based applications. Which of the following would be best suited for this requirement?",
@@ -62,7 +71,10 @@ const Exam = () => {
             <Container className={classes.contentBox}>
 
               <Grid container spacing={2}>
-                <Grid item xs={11}>
+                <Grid item xs={1}>
+                  <Timer hours={timer.hours} minutes={timer.minutes} seconds={timer.seconds}/>
+                </Grid>
+                <Grid item xs={10}>
                   <Typography variant="h5" component="h3" align="center" gutterBottom={true}>Microsoft Certified : Azure Data Fundamentals</Typography>
                 </Grid>
                 <Grid item xs={1}>
@@ -92,6 +104,8 @@ const Exam = () => {
                   )
                 }
               </Grid>
+
+              
 
               <Grid container spacing={5}>
                 <Grid item xs={12}>
