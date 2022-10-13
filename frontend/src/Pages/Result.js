@@ -40,7 +40,7 @@ const Result = () => {
     const navigate = useNavigate();
     const [exam, setExam] = useState("AZ-900"); // should come from DB
     const [marks, setMarks] = useState("750"); // should come from DB
-    const [malpracticeDetected, setMalpracticeDetected] = useState(false); // will be handled by MPDS
+    const [malpracticeDetected, setMalpracticeDetected] = useState(true); // will be handled by MPDS
 
     const submitHandler = () => {
         navigate("/studentdashboard");
