@@ -30,7 +30,7 @@ import { ReactMic } from 'react-mic';
 import Webcam from "react-webcam";
 import { ReactInternetSpeedMeter } from 'react-internet-meter'
 import Signin from './Signin';
-import BoxList from '../Components/BoxList';
+import { BoxList } from '../Components/BoxList';
 
 const useStyles = makeStyles((theme) => ({
   

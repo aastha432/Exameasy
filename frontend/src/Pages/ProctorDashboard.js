@@ -10,6 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Avatar from '@mui/material/Avatar';
 import { Container } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
+import { BoxList1 } from '../Components/BoxList';
 
 
 
@@ -51,6 +52,59 @@ const ProctorDashboard = () => {
   const [updateProfile, updating] = useUpdateProfile(auth);
   // should come from DB
 
+  /* student allocated details 
+  Should come from DB */
+  const [studentDetails, setStudentDetails] = useState([
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "exam" : "AZ-900",
+      "studentImageURL" : "https://tse1.mm.bing.net/th/id/OIP.U0eJqMMa4V_0H3n3A6TZkwHaEV?pid=ImgDet&rs=1",
+      "govIDURL" : "https://tse1.mm.bing.net/th/id/OIP.U0eJqMMa4V_0H3n3A6TZkwHaEV?pid=ImgDet&rs=1",
+      "verify" : true
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "exam" : "AZ-900",
+      "studentImageURL" : "https://static01.nyt.com/images/2011/01/14/arts/14MOVING-span/MOVING-jumbo.jpg",
+      "govIDURL" : "https://static01.nyt.com/images/2011/01/14/arts/14MOVING-span/MOVING-jumbo.jpg",
+      "verify" : false
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "exam" : "AZ-900",
+      "studentImageURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "verify" : true
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "exam" : "AZ-900",
+      "studentImageURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "verify" : true
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "exam" : "AZ-900",
+      "studentImageURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "verify" : true
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "exam" : "AZ-900",
+      "studentImageURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "verify" : true
+    }
+  ])
+
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -66,6 +120,7 @@ const ProctorDashboard = () => {
    <div >
     <Navbar/>
     <Container  className={classes.container}>
+
         <Grid container spacing={2} justifyContent="center">
             <Grid item>
               <Avatar alt="Profile photo" src={photoURL} height = {100} width = {100} />
@@ -86,6 +141,12 @@ const ProctorDashboard = () => {
                   Update Profile
               </Button>
             </Grid>
+        </Grid>
+
+        <Grid container spacing={2} justifyContent="center" className={classes.boxGrid}>
+          <Grid item>
+            <BoxList1 heading={"DETAILS OF STUDENTS ALLOCATED"} items={studentDetails}/>
+          </Grid>
         </Grid>
 
 
