@@ -9,6 +9,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import Button from '@material-ui/core/Button';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
+import Grid from '@material-ui/core/Grid';
 import transitions from '@material-ui/core/styles/transitions';
 
 
@@ -45,7 +46,14 @@ const useStyles = makeStyles((theme) => ({
     },
     image : {
         //
-    }
+    },
+    terminateButton: {
+        width: '50%',
+        marginTop: 7,
+        backgroundColor : "#ff3333",
+        marginLeft : 50,
+        color : "white"
+      },
   }));
 
 export const BoxList = ({heading, items}) => {
@@ -135,5 +143,29 @@ export const BoxList1 = ({heading, items}) => {
         </div>
         
     </List>
+    )
+}
+
+export const BoxList2 = () => {
+
+    const classes = useStyles();
+
+    return (
+        <Grid item >
+            <Box
+              sx={{
+                width: 200,
+                height: 200,
+                backgroundColor: 'primary.dark',
+                '&:hover': {
+                  backgroundColor: 'primary.main',
+                  opacity: [0.9, 0.8, 0.7],
+                },
+              }}
+            >
+                <Box sx={{width:200, height:150, backgroundColor: "#d9d9f2"}}/>
+                <Button variant="contained" className={classes.terminateButton}>TERMINATE</Button>
+            </Box>
+        </Grid>
     )
 }

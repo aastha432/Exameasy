@@ -8,9 +8,11 @@ import { auth } from '../firebase';
 import { useAuthState, useUpdateProfile } from "react-firebase-hooks/auth";
 import TextField from '@material-ui/core/TextField';
 import Avatar from '@mui/material/Avatar';
-import { Container } from '@material-ui/core';
+import { Container, ListSubheader } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { BoxList1 } from '../Components/BoxList';
+import { BoxList1, BoxList2 } from '../Components/BoxList';
+import Box from '@mui/material/Box';
+
 
 
 
@@ -35,9 +37,9 @@ const useStyles = makeStyles((theme) => ({
     overflow : "auto"
   },
   boxHeader : {
-    backgroundColor: "#5d85d5",
     height : 30,
-    borderRadius : 10,
+    marginTop : 50,
+    marginBottom : 0,
   },
 }));
 
@@ -147,6 +149,18 @@ const ProctorDashboard = () => {
           <Grid item>
             <BoxList1 heading={"DETAILS OF STUDENTS ALLOCATED"} items={studentDetails}/>
           </Grid>
+        </Grid>
+
+        
+        <ListSubheader className={classes.boxHeader}><Typography align='center'>{"VIDEO STREAMS OF STUDENTS"}</Typography></ListSubheader>
+         <Grid container spacing={1} justifyContent="center" >
+           {
+            [1,2,3,4,5,6,7,8].map((n) => {
+              return (
+                <BoxList2 />
+              )
+            })
+          }
         </Grid>
 
 
