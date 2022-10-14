@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Avatar from '@mui/material/Avatar';
 import { Container, ListSubheader } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { BoxList1, BoxList2, BoxList3 } from '../Components/BoxList';
+import { BoxList1, BoxList2, BoxList3, BoxList4 } from '../Components/BoxList';
 import Box from '@mui/material/Box';
 
 
@@ -142,6 +142,46 @@ const ProctorDashboard = () => {
     },
   ])
 
+  /* logs of Malpractice detection system 
+  Should come from DB */
+  const [chats, setChats] = useState([
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+    {
+      "name" : "Aastha Sarkar",
+      "email" : "aastha@gmail.com"
+      // more to come later (chat messages)
+    },
+  ])
+
   const classes = useStyles();
   const navigate = useNavigate();
 
@@ -190,7 +230,7 @@ const ProctorDashboard = () => {
         <ListSubheader className={classes.boxHeader}><Typography align='center'>{"VIDEO STREAMS OF STUDENTS"}</Typography></ListSubheader>
          <Grid container spacing={1} justifyContent="center" >
            {
-            [1,2,3,4,5,6,7,8].map((n) => {
+            [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].map((n) => {
               return (
                 <BoxList2 />
               )
@@ -203,6 +243,14 @@ const ProctorDashboard = () => {
             <BoxList3 heading={"LOGS OF MALPRACTICE DETECTION SYSTEM"} items={logsOfMPDS}/>
           </Grid>
         </Grid>
+
+        <Grid container spacing={2} justifyContent="center" className={classes.boxGrid}>
+          <Grid item>
+            <BoxList4 heading={"CHAT SECTION"} items={chats}/>
+          </Grid>
+        </Grid>
+
+        <Grid container spacing={2} justifyContent="center" className={classes.boxGrid}></Grid>
 
 
     </Container>

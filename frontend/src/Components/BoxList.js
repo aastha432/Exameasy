@@ -55,6 +55,14 @@ const useStyles = makeStyles((theme) => ({
         marginLeft : 50,
         color : "white"
       },
+    chatButton : {
+        width : 100,
+        height : 30,
+        marginTop: 7,
+        backgroundColor : "blue",
+        marginLeft : 50,
+        color : "white"
+    }
   }));
 
 export const BoxList = ({heading, items}) => {
@@ -214,6 +222,35 @@ export const BoxList3 = ({heading,items}) => {
                         </Button>
                     }
                     
+                </ListItem>
+            ))} 
+        </div>
+        
+    </List>
+    )
+}
+
+export const BoxList4 = ({heading, items}) => {
+    const classes = useStyles();
+    return (
+        <List
+      sx={{
+        position: 'relative',
+        bgcolor : "#d9d9f2", // can be overwritten
+        overflow: 'auto',
+      }}
+      className = {classes.box1}
+      subheader={<li />}
+    >
+        <ListSubheader className={classes.boxHeader}><Typography align='center'>{heading}</Typography></ListSubheader>
+        <div className={classes.boxContent}>
+            {items.map((item) => (
+                <ListItem >
+                    <ListItemText primary={item.name} />
+                    <ListItemText primary={item.email} />
+                    <Button type="submit" variant="contained" size="small" className={classes.chatButton}>
+                        OPEN CHAT
+                    </Button>
                 </ListItem>
             ))} 
         </div>
