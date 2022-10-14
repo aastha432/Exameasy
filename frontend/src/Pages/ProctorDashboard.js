@@ -10,7 +10,7 @@ import TextField from '@material-ui/core/TextField';
 import Avatar from '@mui/material/Avatar';
 import { Container, ListSubheader } from '@material-ui/core';
 import Button from '@material-ui/core/Button';
-import { BoxList1, BoxList2 } from '../Components/BoxList';
+import { BoxList1, BoxList2, BoxList3 } from '../Components/BoxList';
 import Box from '@mui/material/Box';
 
 
@@ -105,6 +105,41 @@ const ProctorDashboard = () => {
       "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
       "verify" : true
     }
+  ]);
+
+  /* logs of Malpractice detection system 
+  Should come from DB */
+  const [logsOfMPDS, setLogOfMPDS] = useState([
+    {
+      "malpracitce" : "Phone detected",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "terminateExam" : true 
+    },
+    {
+      "malpracitce" : "Phone detected",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "terminateExam" : false 
+    },
+    {
+      "malpracitce" : "Phone detected",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "terminateExam" : true 
+    },
+    {
+      "malpracitce" : "Phone detected",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "terminateExam" : false 
+    },
+    {
+      "malpracitce" : "Phone detected",
+      "email" : "aasthasarkar13gul@gmail.com",
+      "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
+      "terminateExam" : false 
+    },
   ])
 
   const classes = useStyles();
@@ -161,6 +196,12 @@ const ProctorDashboard = () => {
               )
             })
           }
+        </Grid>
+
+        <Grid container spacing={2} justifyContent="center" className={classes.boxGrid}>
+          <Grid item>
+            <BoxList3 heading={"LOGS OF MALPRACTICE DETECTION SYSTEM"} items={logsOfMPDS}/>
+          </Grid>
         </Grid>
 
 

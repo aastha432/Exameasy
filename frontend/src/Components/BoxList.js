@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
       borderRadius : 10,
     },
     box1 : {
-        width: 1000,
+        width: 1100,
         height: '100%',
         maxHeight : 300,
         borderRadius : 10,
@@ -48,7 +48,8 @@ const useStyles = makeStyles((theme) => ({
         //
     },
     terminateButton: {
-        width: '50%',
+        width : 100,
+        height : 30,
         marginTop: 7,
         backgroundColor : "#ff3333",
         marginLeft : 50,
@@ -167,5 +168,56 @@ export const BoxList2 = () => {
                 <Button variant="contained" className={classes.terminateButton}>TERMINATE</Button>
             </Box>
         </Grid>
+    )
+}
+
+export const BoxList3 = ({heading,items}) => {
+    const [hovered, setHovered] = useState(false);
+    const classes = useStyles();
+
+    return (
+    <List
+      sx={{
+        position: 'relative',
+        bgcolor : "#d9d9f2", // can be overwritten
+        overflow: 'auto',
+      }}
+      className = {classes.box1}
+      subheader={<li />}
+    >
+        <ListSubheader className={classes.boxHeader}><Typography align='center'>{heading}</Typography></ListSubheader>
+        <div className={classes.boxContent}>
+            {items.map((item) => (
+                <ListItem >
+                    <ImageList sx={{ width: 100, height: 50 }}  className={classes.imageList}>
+                        <ImageListItem className={hovered ? classes.imageHovered : classes.image}
+                        onMouseOver={()=>setHovered(true )}
+                        onMouseOut={()=>setHovered(false)}
+                         >
+                        <img
+                            src={item.image}
+                            srcSet={item.img}
+                            alt={"studentImageURL"}
+                            loading="lazy"
+                        />
+                        </ImageListItem>
+                    </ImageList>
+                    <ListItemText primary={item.malpracitce} />
+                    <ListItemText primary={item.email} />
+                    {item.terminateExam ? 
+                        <Button type="submit" variant="contained" size="small" className={classes.terminateButton} disabled>
+                            TERMINATE
+                        </Button>
+                    :
+                        <Button type="submit" variant="contained" size="small" className={classes.terminateButton}>
+                            TERMINATE
+                        </Button>
+                    }
+                    
+                </ListItem>
+            ))} 
+        </div>
+        
+    </List>
     )
 }
