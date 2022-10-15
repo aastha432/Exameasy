@@ -41,6 +41,11 @@ const useStyles = makeStyles((theme) => ({
     marginTop : 50,
     marginBottom : 0,
   },
+  boxGridLast : {
+    marginTop : 50,
+    flexDirection : "row",
+    marginBottom : 100,
+  }
 }));
 
 const ProctorDashboard = () => {
@@ -79,7 +84,7 @@ const ProctorDashboard = () => {
       "exam" : "AZ-900",
       "studentImageURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
       "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
-      "verify" : true
+      "verify" : false
     },
     {
       "name" : "Aastha Sarkar",
@@ -95,7 +100,7 @@ const ProctorDashboard = () => {
       "exam" : "AZ-900",
       "studentImageURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
       "govIDURL" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
-      "verify" : true
+      "verify" : false
     },
     {
       "name" : "Aastha Sarkar",
@@ -134,12 +139,6 @@ const ProctorDashboard = () => {
       "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
       "terminateExam" : false 
     },
-    {
-      "malpracitce" : "Phone detected",
-      "email" : "aasthasarkar13gul@gmail.com",
-      "image" : "https://tse4.mm.bing.net/th/id/OIP.9odqTO7q2qwzItvYWVEi0QHaF7?pid=ImgDet&rs=1",
-      "terminateExam" : false 
-    },
   ])
 
   /* logs of Malpractice detection system 
@@ -147,38 +146,156 @@ const ProctorDashboard = () => {
   const [chats, setChats] = useState([
     {
       "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
+      "email" : "aasthasarkar13gul@gmail.com",
+      "userID" : 1,
+      "chat" : 4,
+      "messages" : [
+        {
+          "id" : 1,
+          "isProctor" : true,
+          "message" : "Hey I am hulk, I will be your proctor for today's exam"
+        },
+        {
+          "id" : 2,
+          "isProctor" : false,
+          "message" : "Hello"
+        },
+        {
+          "id" : 3,
+          "isProctor" : true,
+          "message" : "cijfitug cjhiuthi cfhghght"
+        },
+        {
+          "id" : 4,
+          "isProctor" : false,
+          "message" : "nchiriy nxrhightut jehvithvv"
+        },
+        {
+          "id" : 5,
+          "isProctor" : true,
+          "message" : "mkeivtihrhgiynrn nciehiy nceihiuthiby"
+        },
+        {
+          "id" : 6,
+          "isProctor" : false,
+          "message" : "cnhiuheiuhtgtg"
+        },
+      ]
     },
     {
       "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
+      "email" : "aasthasarkar13gul@gmail.com",
+      "userID" : 2,
+      "chat" : 40,
+      "messages" : [
+        {
+          "id" : 1,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+        {
+          "id" : 2,
+          "isProctor" : false,
+          "message" : "Hello"
+        },
+        {
+          "id" : 3,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+      ]
     },
     {
       "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
+      "email" : "aasthasarkar13gul@gmail.com",
+      "userID" : 3,
+      "chat" : 88,
+      "messages" : [
+        {
+          "id" : 1,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+        {
+          "id" : 2,
+          "isProctor" : false,
+          "message" : "Hello"
+        },
+        {
+          "id" : 3,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+      ]
     },
     {
       "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
+      "email" : "aasthasarkar13gul@gmail.com",
+      "userID" : 3,
+      "chat" : 400,
+      "messages" : [
+        {
+          "id" : 1,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+        {
+          "id" : 2,
+          "isProctor" : false,
+          "message" : "Hello"
+        },
+        {
+          "id" : 3,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+      ]
     },
     {
       "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
+      "email" : "aasthasarkar13gul@gmail.com",
+      "userID" : 4,
+      "chat" : 400,
+      "messages" : [
+        {
+          "id" : 1,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+        {
+          "id" : 2,
+          "isProctor" : false,
+          "message" : "Hello"
+        },
+        {
+          "id" : 3,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+      ]
     },
     {
       "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
-    },
-    {
-      "name" : "Aastha Sarkar",
-      "email" : "aastha@gmail.com"
-      // more to come later (chat messages)
+      "email" : "aasthasarkar13gul@gmail.com",
+      "userID" : 5,
+      "chat" : 400,
+      "messages" : [
+        {
+          "id" : 1,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+        {
+          "id" : 2,
+          "isProctor" : false,
+          "message" : "Hello"
+        },
+        {
+          "id" : 3,
+          "isProctor" : true,
+          "message" : "Hey I am Naman, I will be your proctor for today's exam"
+        },
+      ]
     },
   ])
 
@@ -244,13 +361,11 @@ const ProctorDashboard = () => {
           </Grid>
         </Grid>
 
-        <Grid container spacing={2} justifyContent="center" className={classes.boxGrid}>
+        <Grid container spacing={2} justifyContent="center" className={classes.boxGridLast}>
           <Grid item>
             <BoxList4 heading={"CHAT SECTION"} items={chats}/>
           </Grid>
         </Grid>
-
-        <Grid container spacing={2} justifyContent="center" className={classes.boxGrid}></Grid>
 
 
     </Container>

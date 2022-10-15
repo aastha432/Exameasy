@@ -10,14 +10,14 @@ import Button from '@material-ui/core/Button';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Grid from '@material-ui/core/Grid';
+import Badge from '@mui/material/Badge';
+import MailIcon from '@mui/icons-material/Mail';
+import Chatbox from './Chatbox';
 import transitions from '@material-ui/core/styles/transitions';
 
 
 const useStyles = makeStyles((theme) => ({
-    primaryAction: {
-        width: '10%',
-        justifyContent : 'center',
-      },
+   
     box : {
       //width: '100%',
       width : 600,
@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
         borderRadius : 10,
     },
     boxHeader : {
-      backgroundColor: "#5d85d5",
+      backgroundColor: "white",
       height : 30,
     },
     boxContent : {
@@ -46,6 +46,14 @@ const useStyles = makeStyles((theme) => ({
     },
     image : {
         //
+    }, 
+    verifyButton: {
+        width : 100,
+        height : 30,
+        marginTop: 7,
+        backgroundColor : "#40bf80",
+        marginLeft : 50,
+        color : "white"
     },
     terminateButton: {
         width : 100,
@@ -59,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
         width : 100,
         height : 30,
         marginTop: 7,
-        backgroundColor : "blue",
         marginLeft : 50,
         color : "white"
     }
@@ -138,11 +145,11 @@ export const BoxList1 = ({heading, items}) => {
                         </ImageListItem>
                     </ImageList>
                     {item.verify ? 
-                        <Button type="submit" variant="contained" size="small" className={classes.primaryAction} disabled>
+                        <Button type="submit" variant="contained" size="small" className={classes.verifyButton} disabled>
                             Verify
                         </Button>
                     :
-                        <Button type="submit" variant="contained" size="small" className={classes.primaryAction}>
+                        <Button type="submit" variant="contained" size="small" className={classes.verifyButton}>
                             Verify
                         </Button>
                     }
@@ -248,9 +255,7 @@ export const BoxList4 = ({heading, items}) => {
                 <ListItem >
                     <ListItemText primary={item.name} />
                     <ListItemText primary={item.email} />
-                    <Button type="submit" variant="contained" size="small" className={classes.chatButton}>
-                        OPEN CHAT
-                    </Button>
+                    <Chatbox user={item}/>
                 </ListItem>
             ))} 
         </div>
