@@ -1,5 +1,5 @@
 import Navbar from '../Components/Navbar';
-import {React , useState, useEffect, useCallback, useRef, useLayoutEffect} from 'react';
+import {React , useState, useEffect, useCallback, useRef, useLayoutEffect, Fragment} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
@@ -23,13 +23,20 @@ import WifiIcon from '@mui/icons-material/Wifi';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import CancelIcon from '@mui/icons-material/Cancel';
 import HourglassTopIcon from '@mui/icons-material/HourglassTop';
-
-// System checks
 import { ReactMic } from 'react-mic';
 import Webcam from "react-webcam";
 import { ReactInternetSpeedMeter } from 'react-internet-meter'
 import Signin from './Signin';
 import { BoxList } from '../Components/BoxList';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+import DateFnsUtils from "@date-io/date-fns";
+import { MuiPickersUtilsProvider, DatePicker } from "@material-ui/pickers";
+import ruLocale from "date-fns/locale/ru";
+import { MuiThemeProvider } from "@material-ui/core/styles";
+import { Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   
@@ -45,52 +52,73 @@ const useStyles = makeStyles((theme) => ({
     flexDirection : "row",
     justifyItems : 'center'
   },
+  scheduleExamButton : {
+    width: '30%',
+    justifyContent : 'center',
+  },
+  primaryAction2 : {
+    width: '100%',
+    justifyContent : 'center',
+    marginTop : 15,
+  },
+  
+
 }));
 
 const StudentDashboard = () => {
 
   const [user, loading, error] = useAuthState(auth);
+
+  // Profile related deatils
   const [displayName, setDisplayName] = useState(user ? user.displayName : " ");
   const [photoURL, setPhotoURL] = useState(user ? user.photoURL : " ");
   const [exam, setExam] = useState("AZ-900"); // should come from DB
+  const [updateProfile, updating] = useUpdateProfile(auth);
+
+
+  // upcoming and past exam information
   const [upcomingExams, setUpcomingExams] = useState(["AZ-900", "DP-900", "AI-900", "PL-900", "SC-900","AZ-900", "DP-900", "AI-900", "PL-900", "SC-900"]); // should come from DB
   const [pastExams, setPastExams] = useState(["AZ-900", "AI-900", "PL-900", "SC-900","AZ-900", "DP-900", "AI-900", "PL-900", "SC-900"]); // should come from DB
-  const [updateProfile, updating] = useUpdateProfile(auth);
-  const navigate = useNavigate();
+  
+  /* Scheduling exams*/
+  const[openScheduledExamButton, setOpenScheduledExamButton] = useState(false);
+  // Scheduled exam name
+  const [scheduledExam, setScheduledExam] = useState('');
+  const [openScheduledExam, setOpenScheduledExam] = useState(false);
+  const avaibleExams = ["DP-900","PL-900","PL-300","SC-900"];
+  const handleCloseExamName = () => {
+    setOpenScheduledExam(false);
+  }
+  const handleOpenExamName = () => {
+    setOpenScheduledExam(true);
+  }
+  const handleChangeExamName = (e) => {
+    setScheduledExam(e.target.value);
+  } 
+  // Scheduled exam slot
+  const [scheduledSlot, setScheduledSlot] = useState('');
+  const [openScheduledSlot, setOpenScheduledSlot] = useState(false);
+  const avaibleSlots = ["2:00 PM - 3:30 PM", "4:00 PM - 5:30 PM", "11:00 AM - 12:30 PM"];
+  const handleCloseSlot = () => {
+    setOpenScheduledSlot(false);
+  }
+  const handleOpenSlot = () => {
+    setOpenScheduledSlot(true);
+  }
+  const handleChangeSlot = (e) => {
+    setScheduledSlot(e.target.value);
+  } 
+  // Scheduled exam Date
+  const [scheduledDate, setScheduledDate] = useState(new Date());
+  
 
-  // toggle dropdowns (System checks)
+
+  /**  (System checks) */
+
+  // toggle dropdowns for system check
   const [openMicrophone, setOpenMicrophone] = useState(false);
   const [openWebcam, setOpenWebcam] = useState(false);
   const [openInternet, setOpenInternet] = useState(false);
-  // microphone controls
-  const [record, setRecord] = useState(false);
-  const [microphoneVerified, setMicrophoneVerified] = useState(false);
-  // webcam controls
-  const [webcam, setWebcam] = useState(false);
-  const [webcamVerified, setWebcamVerified] = useState(false);
-  // internet controls
-  const [speed, setSpeed] = useState('');
-  const [checkSpeed, setCheckSpeed] = useState(false);
-  const [internetVerified, setInternetVerified] = useState(false);
-
-  // toggle dropdowns (Capturing images)
-  const [openCaptureStudentImage, setOpenCaptureStudentImage] = useState(false);
-  const [openCaptureGovIDImage, setOpenCaptureGovIDImage] =  useState(false);
-  // Capturing image
-  const [capturedStudentImage, setCapturedStudentImage] = useState('');
-  const [capturedGovIDImage, setCapturedGovIDImage] =  useState('');
-  const [imagesVerified, setImagesVerified] = useState(true); // shouls be populated from proctor's end
-
-
-  useEffect(() => {
-    if (!user) {
-      navigate("/signin");
-    }
-  }, [user, loading]);
-
-  const classes = useStyles();
-
-
   // toggle system check dropdown functions
   const handleMicrophoneClick = () => {
     setOpenMicrophone(!openMicrophone);
@@ -102,6 +130,9 @@ const StudentDashboard = () => {
     setOpenInternet(!openInternet);
   }
 
+  // microphone controls
+  const [record, setRecord] = useState(false);
+  const [microphoneVerified, setMicrophoneVerified] = useState(false);
   // microphone control functions
   const handleMicrophoneVerification = () => {
     setMicrophoneVerified(true);
@@ -109,40 +140,66 @@ const StudentDashboard = () => {
   const onData = ()=> {
     console.log("Recording.....");
   }
-
   const onStop = (recordedBlob) => {
     console.log(recordedBlob);
   }
 
-  // webcam control functions
-  const handleWebcamVerification = () => {
+  // webcam controls
+  const [webcam, setWebcam] = useState(false);
+  const [webcamVerified, setWebcamVerified] = useState(false);
+// webcam control functions
+  const handleWebcamVerification = () => { }
 
-  }
 
+  // internet controls
+  const [speed, setSpeed] = useState('');
+  const [checkSpeed, setCheckSpeed] = useState(false);
+  const [internetVerified, setInternetVerified] = useState(false);
   // internet control functions
-  const handleInternetVerification = () => {
+  const handleInternetVerification = () => { }
 
-  }
-  const webcamRefStudent = useRef(null);
-  const capturingStudentImage = useCallback(
-    () => {
-      const imageSrc = webcamRefStudent.current.getScreenshot();
-      setCapturedStudentImage(imageSrc); // store this in DB later
-    },
-    [webcamRefStudent]
-  );
 
-  const webcamRefGov = useRef(null);
-  const capturingGovIDImage = useCallback(
-    () => {
-      const imageSrc = webcamRefGov.current.getScreenshot();
-      setCapturedGovIDImage(imageSrc);// store this in DB later
-    },
-    [webcamRefGov]
-  );
 
+
+
+  /* (For capturing student and GovID images */
   
+  // toggle dropdowns (Capturing images)
+  const [openCaptureStudentImage, setOpenCaptureStudentImage] = useState(false);
+  const [openCaptureGovIDImage, setOpenCaptureGovIDImage] =  useState(false);
+  // Capturing image
+  const [capturedStudentImage, setCapturedStudentImage] = useState('');
+  const [capturedGovIDImage, setCapturedGovIDImage] =  useState('');
+  const [imagesVerified, setImagesVerified] = useState(true); // shouls be populated from proctor's end
+  const webcamRefStudent = useRef(null);
+    const capturingStudentImage = useCallback(
+      () => {
+        const imageSrc = webcamRefStudent.current.getScreenshot();
+        setCapturedStudentImage(imageSrc); // store this in DB later
+      },
+      [webcamRefStudent]
+    );
 
+    const webcamRefGov = useRef(null);
+    const capturingGovIDImage = useCallback(
+      () => {
+        const imageSrc = webcamRefGov.current.getScreenshot();
+        setCapturedGovIDImage(imageSrc);// store this in DB later
+      },
+      [webcamRefGov]
+    );
+
+
+
+
+  useEffect(() => {
+    if (!user) {
+      navigate("/signin");
+    }
+  }, [user, loading]);
+
+  const classes = useStyles();
+  const navigate = useNavigate();
 
   return (
   <div>
@@ -183,6 +240,80 @@ const StudentDashboard = () => {
             <BoxList heading={"PAST EXAMS"} items={pastExams}/>
           </Grid>
         </Grid>
+        
+        <br></br>
+        <Typography align='center'><Button onClick={()=>setOpenScheduledExamButton(!openScheduledExamButton)}
+         type="submit" variant="contained" size="large" className={classes.scheduleExamButton} color="primary"
+        >SCHEDULE EXAM</Button></Typography>
+        {
+          openScheduledExamButton ? 
+          <Grid container spacing={2} justifyContent='center'>
+            <Grid item xs={12}></Grid>
+            <Grid item>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-controlled-open-select-label">Exam</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={openScheduledExam}
+                  onClose={handleCloseExamName}
+                  onOpen={handleOpenExamName}
+                  value={scheduledExam}
+                  label="Age"
+                  onChange={(e)=>handleChangeExamName(e)}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {
+                    avaibleExams.map((exam) => <MenuItem value={exam}>{exam}</MenuItem>)
+                  }
+                </Select>
+              </FormControl>
+          </Grid>
+          <Grid item>
+              <FormControl sx={{ m: 1, minWidth: 120 }}>
+                <InputLabel id="demo-controlled-open-select-label">Slot</InputLabel>
+                <Select
+                  labelId="demo-controlled-open-select-label"
+                  id="demo-controlled-open-select"
+                  open={openScheduledSlot}
+                  onClose={handleCloseSlot}
+                  onOpen={handleOpenSlot}
+                  value={scheduledSlot}
+                  label="Age"
+                  onChange={(e)=>handleChangeSlot(e)}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  {
+                    avaibleSlots.map((slot) => <MenuItem value={slot}>{slot}</MenuItem>)
+                  }
+                </Select>
+              </FormControl>
+          </Grid>
+          
+          <Grid item>
+              <MuiPickersUtilsProvider utils={DateFnsUtils} locale={ruLocale}>
+                <Fragment>
+                <DatePicker
+                  label="Date"
+                  value={scheduledDate}
+                  onChange={(e)=>setScheduledDate(e)}
+                  animateYearScrolling
+                /></Fragment>
+              </MuiPickersUtilsProvider>
+          </Grid>
+
+          <Grid item>
+            <Button onClick={()=>{}}
+              type="submit" variant="contained" size="large" className={classes.primaryAction2} color="secondary"
+            >Submit</Button>
+          </Grid>
+        </Grid> : null
+        }
+        
         
 
         
