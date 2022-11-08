@@ -20,7 +20,7 @@ npm install
 npm start
 ```
 
-### Start frontend of the project
+### Start backend of the project
 ```
 cd backend
 ...TODO
