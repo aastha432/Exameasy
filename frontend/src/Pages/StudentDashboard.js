@@ -132,7 +132,7 @@ const StudentDashboard = () => {
 
   // microphone controls
   const [record, setRecord] = useState(false);
-  const [microphoneVerified, setMicrophoneVerified] = useState(false);
+  const [microphoneVerified, setMicrophoneVerified] = useState(false); // dymically update
   // microphone control functions
   const handleMicrophoneVerification = () => {
     setMicrophoneVerified(true);
@@ -170,7 +170,7 @@ const StudentDashboard = () => {
   // Capturing image
   const [capturedStudentImage, setCapturedStudentImage] = useState('');
   const [capturedGovIDImage, setCapturedGovIDImage] =  useState('');
-  const [imagesVerified, setImagesVerified] = useState(true); // shouls be populated from proctor's end
+  const [imagesVerified, setImagesVerified] = useState(true); // should be populated from proctor's end
   const webcamRefStudent = useRef(null);
     const capturingStudentImage = useCallback(
       () => {

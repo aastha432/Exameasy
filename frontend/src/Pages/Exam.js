@@ -32,7 +32,7 @@ const Exam = () => {
     const [timer, setTimer] = useState({
       "hours" : 0,
       "minutes" : 0,
-      "seconds" : 10
+      "seconds" : 5
     })
 
     const [questions, setQuestions] = useState([

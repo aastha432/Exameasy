@@ -27,7 +27,7 @@ const useStyles = makeStyles((theme) => ({
     },
     chatBox : {
         width : 360,
-        height : 320,
+        height : 330,
         paddingLeft : 5,
         paddingRight : 5,
         zIndex : 100, //
